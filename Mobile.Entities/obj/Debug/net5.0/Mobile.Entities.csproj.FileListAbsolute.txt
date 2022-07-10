@@ -1,0 +1,15 @@
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\bin\Debug\net5.0\Mobile.Entities.deps.json
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\bin\Debug\net5.0\Mobile.Entities.dll
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\bin\Debug\net5.0\ref\Mobile.Entities.dll
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\bin\Debug\net5.0\Mobile.Entities.pdb
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\obj\Debug\net5.0\Mobile.Entities.csproj.AssemblyReference.cache
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\obj\Debug\net5.0\Mobile.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\obj\Debug\net5.0\Mobile.Entities.AssemblyInfoInputs.cache
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\obj\Debug\net5.0\Mobile.Entities.AssemblyInfo.cs
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\obj\Debug\net5.0\Mobile.Entities.csproj.CoreCompileInputs.cache
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\obj\Debug\net5.0\Mobile.Entities.dll
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\obj\Debug\net5.0\ref\Mobile.Entities.dll
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\obj\Debug\net5.0\Mobile.Entities.pdb
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\bin\Debug\net5.0\Mobile.Entities.runtimeconfig.json
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\bin\Debug\net5.0\Mobile.Entities.runtimeconfig.dev.json
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\obj\Debug\net5.0\Mobile.Entities.genruntimeconfig.cache

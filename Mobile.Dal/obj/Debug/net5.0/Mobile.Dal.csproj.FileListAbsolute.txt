@@ -1,0 +1,15 @@
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Dal\bin\Debug\net5.0\Mobile.Dal.deps.json
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Dal\bin\Debug\net5.0\Mobile.Dal.dll
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Dal\bin\Debug\net5.0\ref\Mobile.Dal.dll
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Dal\bin\Debug\net5.0\Mobile.Dal.pdb
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Dal\obj\Debug\net5.0\Mobile.Dal.csproj.AssemblyReference.cache
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Dal\obj\Debug\net5.0\Mobile.Dal.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Dal\obj\Debug\net5.0\Mobile.Dal.AssemblyInfoInputs.cache
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Dal\obj\Debug\net5.0\Mobile.Dal.AssemblyInfo.cs
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Dal\obj\Debug\net5.0\Mobile.Dal.csproj.CoreCompileInputs.cache
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Dal\obj\Debug\net5.0\Mobile.Dal.dll
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Dal\obj\Debug\net5.0\ref\Mobile.Dal.dll
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Dal\obj\Debug\net5.0\Mobile.Dal.pdb
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Dal\bin\Debug\net5.0\Mobile.Entities.dll
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Dal\bin\Debug\net5.0\Mobile.Entities.pdb
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Dal\obj\Debug\net5.0\Mobile.Dal.csproj.CopyComplete
