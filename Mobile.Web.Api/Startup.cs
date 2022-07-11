@@ -79,9 +79,9 @@ namespace Mobile.Web.Api
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                 };
 
-                services.AddHttpContextAccessor();
             });
-            
+            services.AddHttpContextAccessor();
+            services.AddSingleton<Shared.SharedIdentity>();
             services.Configure<MongoSettings>(Configuration.GetSection("MongoSettings"));
             services.Configure<RedisSettings>(Configuration.GetSection("RedisSettings"));
             services.AddScoped<IBasketService, BasketService>();
@@ -99,7 +99,6 @@ namespace Mobile.Web.Api
                 return redisService;
 
             });
-
             services.AddSingleton<IMongoDatabase>(options =>
             {
 

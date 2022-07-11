@@ -7,6 +7,7 @@ using Mobile.Dal.Services.Abstract;
 using Mobile.Entities.Context;
 using Mobile.Entities.Entities;
 using MongoDB.Driver;
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,14 +22,13 @@ namespace Mobile.Web.Api.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IBasketService _basketService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private string UserId = "";
-        public BasketController(ApplicationDbContext applicationDbContext, ApplicationDbContext context, IBasketService basketService, IHttpContextAccessor httpContextAccessor)
+        private readonly SharedIdentity _sharedIdentity;
+
+        public BasketController(ApplicationDbContext applicationDbContext, ApplicationDbContext context, IBasketService basketService, SharedIdentity sharedIdentity)
         {
             _context = context;
             _basketService = basketService;
-            _httpContextAccessor = httpContextAccessor;
-            UserId = "ada36b30-529f-4510-924c-db64a8337bba"; /*_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);*/
+            _sharedIdentity = sharedIdentity;
         }
 
         [HttpGet("AddBasketItem")]
@@ -36,7 +36,7 @@ namespace Mobile.Web.Api.Controllers
         {
             var product =  _context.Products.Where(x => x.Barkod == barcode).FirstOrDefault();
             if (product == null) return NotFound("Product is Not Found");
-            var basket = await _basketService.GetBasket(UserId);
+            var basket = await _basketService.GetBasket(_sharedIdentity.UserId);
             var basketItem = new BasketItem { Price = product.BirimFiyatı * count, UnitPrice=product.BirimFiyatı, Count=count, ProductId = product.DepoId, Barcode=product.Barkod, CurrencyUnit= product.BirimFiyatiParaBirimi, ProductName = product.Isim };
 
            if (basket == null)
@@ -49,17 +49,17 @@ namespace Mobile.Web.Api.Controllers
             }
             else { basket.basketItems.Add(basketItem);}
 
-           var result = await _basketService.AddBasket(basket, UserId);
+           var result = await _basketService.AddBasket(basket, _sharedIdentity.UserId);
             
             return Ok(result);
 
         }
 
-
+        //[Authorize]
         [HttpGet("GetBasket")]
         public async Task<IActionResult> GetBasket()
         {
-            var basket = await _basketService.GetBasket(UserId);
+            var basket = await _basketService.GetBasket(_sharedIdentity.UserId);
 
             return Ok(new { totalPrice = basket.TotalPrice, items = basket.basketItems });
 
@@ -68,7 +68,7 @@ namespace Mobile.Web.Api.Controllers
         public async Task<IActionResult> DeleteBasket(int productId)
         {
              
-            var basket = await _basketService.DeleteBasket(UserId, productId);
+            var basket = await _basketService.DeleteBasket(_sharedIdentity.UserId, productId);
 
             return Ok(new { totalPrice = basket.TotalPrice, items = basket.basketItems });
 
@@ -77,7 +77,6 @@ namespace Mobile.Web.Api.Controllers
         [HttpPost("SendBasketItem")]
         public async Task<IActionResult> SendBasketItem([FromBody] BasketModel models)
         {
-
 
            var result = await _basketService.SendBasketItem(models);
             return Ok(result);

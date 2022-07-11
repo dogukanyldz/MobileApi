@@ -1905,6 +1905,20 @@
         "runtime": {
           "bin/placeholder/Mobile.Entities.dll": {}
         }
+      },
+      "Shared/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Microsoft.AspNetCore.Http": "2.2.2",
+          "Microsoft.Extensions.Identity.Core": "5.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Shared.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Shared.dll": {}
+        }
       }
     }
   },
@@ -6535,6 +6549,11 @@
       "type": "project",
       "path": "../Mobile.Entities/Mobile.Entities.csproj",
       "msbuildProject": "../Mobile.Entities/Mobile.Entities.csproj"
+    },
+    "Shared/1.0.0": {
+      "type": "project",
+      "path": "../Shared/Shared.csproj",
+      "msbuildProject": "../Shared/Shared.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -6548,6 +6567,7 @@
       "MongoDB.Bson >= 2.16.1",
       "MongoDB.Driver >= 2.16.1",
       "MongoDB.Driver.Core >= 2.16.1",
+      "Shared >= 1.0.0",
       "Swashbuckle.AspNetCore >= 5.6.3"
     ]
   },
@@ -6588,6 +6608,9 @@
             },
             "C:\\Users\\Dogukan\\source\\repos\\Mobile.Web.Api\\Mobile.Entities\\Mobile.Entities.csproj": {
               "projectPath": "C:\\Users\\Dogukan\\source\\repos\\Mobile.Web.Api\\Mobile.Entities\\Mobile.Entities.csproj"
+            },
+            "C:\\Users\\Dogukan\\source\\repos\\Mobile.Web.Api\\Shared\\Shared.csproj": {
+              "projectPath": "C:\\Users\\Dogukan\\source\\repos\\Mobile.Web.Api\\Shared\\Shared.csproj"
             }
           }
         }

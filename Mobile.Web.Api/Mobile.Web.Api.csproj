@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Mobile.Dal\Mobile.Dal.csproj" />
     <ProjectReference Include="..\Mobile.Entities\Mobile.Entities.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
