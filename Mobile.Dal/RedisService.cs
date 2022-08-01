@@ -19,7 +19,7 @@ namespace Mobile.Dal
             _host = host;
             _port = port;
         }
-        public void Connect() => _ConnectionMultiplexer = ConnectionMultiplexer.Connect($"{_host}:{_port}");
+        public void Connect() => _ConnectionMultiplexer = ConnectionMultiplexer.Connect("localhost:6379");
 
 
         public IDatabase GetDb() => _ConnectionMultiplexer.GetDatabase();

@@ -29,10 +29,11 @@ namespace Mobile.Dal.Services.Concrete
 
         public SecurityToken CreateToken(List<Claim> claims)
         {
+        
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Key"]));
 
             var token = new JwtSecurityToken(
-                expires: DateTime.Now.AddMinutes(1),
+                expires: DateTime.Now.AddMinutes(10),
                 issuer :_config["Jwt:Issuer"],
                 audience : _config["Jwt:Issuer"],
                 claims: claims,
@@ -41,7 +42,7 @@ namespace Mobile.Dal.Services.Concrete
             return token;
         }
 
-        public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        public ClaimsPrincipal ValidateExpiredToken(string token)
         {
             var tokenValidationParameters = new TokenValidationParameters
             {

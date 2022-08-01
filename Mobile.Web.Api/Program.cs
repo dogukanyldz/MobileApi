@@ -19,10 +19,10 @@ namespace Mobile.Web.Api
         {
             var host = CreateHostBuilder(args).Build();
 
-            var scope = host.Services.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            var migration = context.Database.GetService<IMigrator>();
-            migration.Migrate();
+            //var scope = host.Services.CreateScope();
+            //var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            //var migration = context.Database.GetService<IMigrator>();
+            //migration.Migrate();
             host.Run();
         }
 

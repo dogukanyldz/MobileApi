@@ -107,10 +107,10 @@ namespace Mobile.Web.Api.Controllers
             string? accessToken = tokenModel.AccessToken;
             string? refreshToken = tokenModel.RefreshToken;
 
-            var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
+            var principal = _tokenService.ValidateExpiredToken(accessToken);
             if (principal == null)
             {
-                return BadRequest("Invalid access token or refresh token");
+                return Unauthorized("Invalid access token or refresh token");
             }
 
             var email = principal.FindFirstValue(ClaimTypes.Email);
@@ -118,7 +118,7 @@ namespace Mobile.Web.Api.Controllers
                                                                                         //07.08.2022            //08.07.2022        
             if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
             {
-                return BadRequest("Invalid access token or refresh token");
+                return Unauthorized("Invalid access token or refresh token");
             }
 
             var newAccessToken = _tokenService.CreateToken(principal.Claims.ToList());

@@ -10,6 +10,8 @@ using System.Net;
 using Mobile.Entities.Entities;
 using Microsoft.Extensions.Options;
 using System.IO;
+using Mobile.Entities.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mobile.Dal.Services.Concrete
 {
@@ -17,10 +19,12 @@ namespace Mobile.Dal.Services.Concrete
     {
         private readonly RedisService _redis;
         private readonly SmtpSettings _smtpSettings;
-        public BasketService(RedisService redis, IOptions<SmtpSettings> smtpSettings)
+        private readonly ApplicationDbContext _applicationDbContext;
+        public BasketService(RedisService redis, IOptions<SmtpSettings> smtpSettings, ApplicationDbContext applicationDbContext)
         {
             _redis = redis;
             _smtpSettings = smtpSettings.Value;
+            _applicationDbContext = applicationDbContext;
         }
 
         public async Task<BasketModel> GetBasket(string userId)
@@ -28,6 +32,7 @@ namespace Mobile.Dal.Services.Concrete
             var redisResult = await _redis.GetDb().StringGetAsync(userId);
             if (redisResult.IsNull)
                 return new BasketModel();
+            
             var basket = JsonConvert.DeserializeObject<BasketModel>(redisResult);
 
 
@@ -42,7 +47,7 @@ namespace Mobile.Dal.Services.Concrete
 
         }
 
-        public async Task<BasketModel> DeleteBasket(string userId, int productId)
+        public async Task<BasketModel> DeleteBasketById(string userId, int productId)
         {
             var redisResult = await GetBasket(userId);            
             if (redisResult.basketItems.Count > 0)
@@ -59,6 +64,19 @@ namespace Mobile.Dal.Services.Concrete
             }
 
             return new BasketModel();
+        }  
+        public async Task<bool> DeleteBasket(string userId)
+        {
+            var redisResult = await GetBasket(userId);            
+            if (redisResult.basketItems.Count > 0)
+            {              
+                redisResult.basketItems.Clear();
+               
+                await _redis.GetDb().StringSetAsync(userId, JsonConvert.SerializeObject(redisResult));
+
+            }
+
+            return true;
         }
 
 
@@ -76,8 +94,7 @@ namespace Mobile.Dal.Services.Concrete
             mailMessage.IsBodyHtml = true;
             mailMessage.Subject = "Sipariş Raporu";
             var path = Directory.GetCurrentDirectory();
-            string html = File.ReadAllText($"{path}/template/mail_template.html");
-
+            string html = _applicationDbContext.Template.AsNoTracking().Select(x => x.TemplateFile).FirstOrDefault();
             StringBuilder builder = new();
             builder.Append(html);
             basket.basketItems.ForEach(x => {

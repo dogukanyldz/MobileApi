@@ -24,7 +24,6 @@ using Microsoft.Extensions.Options;
 using Mobile.Dal;
 using Mobile.Dal.Services.Abstract;
 using Mobile.Dal.Services.Concrete;
-
 namespace Mobile.Web.Api
 {
     public class Startup
@@ -113,12 +112,11 @@ namespace Mobile.Web.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
+           
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mobile.Web.Api v1"));
-            }
+            
 
             //app.UseHttpsRedirection();
 

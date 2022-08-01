@@ -18,6 +18,7 @@ namespace Mobile.Entities.Context
 
         public DbSet<User> User { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Template> Template { get; set; }
 
 
 

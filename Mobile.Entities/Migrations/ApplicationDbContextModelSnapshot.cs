@@ -317,6 +317,21 @@ namespace Mobile.Entities.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("Mobile.Entities.Entities.Template", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("TemplateFile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Template");
+                });
+
             modelBuilder.Entity("Mobile.Entities.Entities.User", b =>
                 {
                     b.Property<string>("Id")

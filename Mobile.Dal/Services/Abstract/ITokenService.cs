@@ -11,7 +11,7 @@ namespace Mobile.Dal.Services.Abstract
    public interface ITokenService
     {
         string GenerateRefreshToken();
-        ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
+        ClaimsPrincipal ValidateExpiredToken(string token);
         SecurityToken CreateToken(List<Claim> claims);
 
 

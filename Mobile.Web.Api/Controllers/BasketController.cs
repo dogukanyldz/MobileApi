@@ -18,8 +18,10 @@ namespace Mobile.Web.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BasketController : ControllerBase
     {
+
         private readonly ApplicationDbContext _context;
         private readonly IBasketService _basketService;
         private readonly SharedIdentity _sharedIdentity;
@@ -38,11 +40,10 @@ namespace Mobile.Web.Api.Controllers
             if (product == null) return NotFound("Product is Not Found");
             var basket = await _basketService.GetBasket(_sharedIdentity.UserId);
             var basketItem = new BasketItem { Price = product.BirimFiyatı * count, UnitPrice=product.BirimFiyatı, Count=count, ProductId = product.DepoId, Barcode=product.Barkod, CurrencyUnit= product.BirimFiyatiParaBirimi, ProductName = product.Isim };
-
            if (basket == null)
                 return BadRequest();
             
-            if (basket.basketItems.Count > 0)
+            if (basket.basketItems.Any())
             {
                 if(!basket.basketItems.Any(x=> x.Barcode == barcode))
                     basket.basketItems.Add(basketItem);               
@@ -50,12 +51,12 @@ namespace Mobile.Web.Api.Controllers
             else { basket.basketItems.Add(basketItem);}
 
            var result = await _basketService.AddBasket(basket, _sharedIdentity.UserId);
-            
+
+
             return Ok(result);
 
         }
 
-        //[Authorize]
         [HttpGet("GetBasket")]
         public async Task<IActionResult> GetBasket()
         {
@@ -64,13 +65,22 @@ namespace Mobile.Web.Api.Controllers
             return Ok(new { totalPrice = basket.TotalPrice, items = basket.basketItems });
 
         }
-        [HttpGet("DeleteBasket")]
-        public async Task<IActionResult> DeleteBasket(int productId)
+        [HttpGet("DeleteBasketById")]
+        public async Task<IActionResult> DeleteBasketById(int productId)
         {
              
-            var basket = await _basketService.DeleteBasket(_sharedIdentity.UserId, productId);
+            var basket = await _basketService.DeleteBasketById(_sharedIdentity.UserId, productId);
 
             return Ok(new { totalPrice = basket.TotalPrice, items = basket.basketItems });
+
+        }
+        [HttpDelete("DeleteBasket")]
+        public async Task<IActionResult> DeleteBasket()
+        {
+             
+            var basket = await _basketService.DeleteBasket(_sharedIdentity.UserId);
+
+            return Ok(new { result = basket });
 
         }
 
