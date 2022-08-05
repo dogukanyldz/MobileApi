@@ -83,10 +83,14 @@ namespace Mobile.Web.Api
             services.AddSingleton<Shared.SharedIdentity>();
             services.Configure<MongoSettings>(Configuration.GetSection("MongoSettings"));
             services.Configure<RedisSettings>(Configuration.GetSection("RedisSettings"));
-            services.AddScoped<IBasketService, BasketService>();
-            services.AddScoped<ITokenService, TokenService>();
+            services.AddTransient<IBasketService, BasketService>();
+            services.AddTransient<ITokenService, TokenService>();
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
-            services.AddSingleton<RedisService>(x=>
+
+            var connection = new ConnectionFactory("172.17.0.3");
+            services.AddSingleton(connection);
+
+            services.AddTransient<RedisService>(x=>
             {
 
                 var redisSettings = x.GetRequiredService<IOptions<RedisSettings>>().Value;
@@ -116,10 +120,10 @@ namespace Mobile.Web.Api
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mobile.Web.Api v1"));
-            
+
 
             //app.UseHttpsRedirection();
-
+            app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

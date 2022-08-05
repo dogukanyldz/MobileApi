@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Open-XML-SDK" Version="2.9.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.6.48" />
   </ItemGroup>
 

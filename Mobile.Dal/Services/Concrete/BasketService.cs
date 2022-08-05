@@ -12,24 +12,33 @@ using Microsoft.Extensions.Options;
 using System.IO;
 using Mobile.Entities.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml;
+using System.Reflection;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Mobile.Dal.Services.Concrete
 {
     public class BasketService: IBasketService
     {
-        private readonly RedisService _redis;
+        private readonly ConnectionFactory _redis;
         private readonly SmtpSettings _smtpSettings;
         private readonly ApplicationDbContext _applicationDbContext;
-        public BasketService(RedisService redis, IOptions<SmtpSettings> smtpSettings, ApplicationDbContext applicationDbContext)
+        private readonly IWebHostEnvironment _env;
+
+        public BasketService(ConnectionFactory redis, IOptions<SmtpSettings> smtpSettings, ApplicationDbContext applicationDbContext, IWebHostEnvironment env)
         {
             _redis = redis;
             _smtpSettings = smtpSettings.Value;
             _applicationDbContext = applicationDbContext;
+            _env = env;
         }
 
         public async Task<BasketModel> GetBasket(string userId)
         {
-            var redisResult = await _redis.GetDb().StringGetAsync(userId);
+            var redisResult = await _redis.GetConnection().StringGetAsync(userId);
             if (redisResult.IsNull)
                 return new BasketModel();
             
@@ -41,8 +50,15 @@ namespace Mobile.Dal.Services.Concrete
         }
         public async Task<bool> AddBasket(BasketModel basket, string userId)
         {
-            var redisResult = await _redis.GetDb().StringSetAsync(userId,JsonConvert.SerializeObject(basket));
+            var redisResult = await _redis.GetConnection().StringSetAsync(userId,JsonConvert.SerializeObject(basket));
             
+            return redisResult;
+
+        }
+        public async Task<bool> UpdateBasket(BasketModel basket, string userId)
+        {
+            var redisResult = await _redis.GetConnection().StringSetAsync(userId, JsonConvert.SerializeObject(basket));
+
             return redisResult;
 
         }
@@ -58,7 +74,7 @@ namespace Mobile.Dal.Services.Concrete
 
                 redisResult.basketItems.Remove(deletedItem);
                
-                await _redis.GetDb().StringSetAsync(userId, JsonConvert.SerializeObject(redisResult));
+                await _redis.GetConnection().StringSetAsync(userId, JsonConvert.SerializeObject(redisResult));
 
                 return redisResult;
             }
@@ -72,7 +88,7 @@ namespace Mobile.Dal.Services.Concrete
             {              
                 redisResult.basketItems.Clear();
                
-                await _redis.GetDb().StringSetAsync(userId, JsonConvert.SerializeObject(redisResult));
+                await _redis.GetConnection().StringSetAsync(userId, JsonConvert.SerializeObject(redisResult));
 
             }
 
@@ -82,6 +98,8 @@ namespace Mobile.Dal.Services.Concrete
 
         public async Task<bool> SendBasketItem(BasketModel basket)
         {
+            string root_path = $@"{_env.WebRootPath }\SiparisVerileri.xlsx";
+            WriteExcelFile(basket.basketItems, root_path);
             SmtpClient smtp = new()
             {
                 Host = _smtpSettings.Host,
@@ -107,6 +125,8 @@ namespace Mobile.Dal.Services.Concrete
             builder.Append("</table> </body> </html>");
             mailMessage.Body = builder.ToString();
 
+            var attachment = new Attachment(File.Open(root_path, FileMode.Open), "SiparisVerileri.xlsx");
+            mailMessage.Attachments.Add(attachment);
             try
             {
                 await smtp.SendMailAsync(mailMessage);
@@ -115,6 +135,87 @@ namespace Mobile.Dal.Services.Concrete
             catch (Exception) {return false;}
     
             return true;
+        }
+
+        public static void WriteExcelFile(List<BasketItem> model,string path)
+        {
+            DataTable table = new DataTable();
+
+            foreach (PropertyInfo info in typeof(BasketItem).GetProperties())
+            {
+                table.Columns.Add(new DataColumn(info.Name, info.PropertyType));
+            }
+
+            foreach (BasketItem t in model)
+            {
+                DataRow row = table.NewRow();
+
+                foreach (PropertyInfo info in typeof(BasketItem).GetProperties())
+                {
+                    row[info.Name] = info.GetValue(t, null);
+                }
+                table.Rows.Add(row);
+            }
+
+            if (File.Exists(path))
+                File.Delete(path);
+
+            using (SpreadsheetDocument document = SpreadsheetDocument.Create(path, SpreadsheetDocumentType.Workbook))
+            {
+                WorkbookPart workbookPart = document.AddWorkbookPart();
+                workbookPart.Workbook = new Workbook();
+
+                WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+                var sheetData = new SheetData();
+                worksheetPart.Worksheet = new Worksheet(sheetData);
+
+                Sheets sheets = workbookPart.Workbook.AppendChild(new Sheets());
+                Sheet sheet = new Sheet{ Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = "Sheet1" };
+
+                sheets.Append(sheet);
+
+                Row headerRow = new Row();
+
+                List<String> columns = new List<string>();
+                foreach (System.Data.DataColumn column in table.Columns)
+                {
+                    columns.Add(column.ColumnName);
+
+                    Cell cell = new();
+                    cell.DataType = CellValues.String;
+                    cell.CellValue = new CellValue(column.ColumnName);
+                    headerRow.AppendChild(cell);
+                }
+
+                sheetData.AppendChild(headerRow);
+
+                foreach (DataRow dsrow in table.Rows)
+                {
+                    Row newRow = new ();
+                    foreach (String col in columns)
+                    {
+                        Cell cell = new ();
+                        cell.DataType = CellValues.String;
+                        cell.CellValue = new CellValue(dsrow[col].ToString());
+                        newRow.AppendChild(cell);
+                    }
+
+                    sheetData.AppendChild(newRow);
+                }
+
+
+                    Row newRows = new();
+               
+                    Cell cells = new();
+                    cells.DataType = CellValues.String;
+                    cells.CellValue = new CellValue($"TOPLAM TUTAR : {model.Sum(x=> x.Price)} : EUR. ");
+                    newRows.AppendChild(cells);
+                
+
+                sheetData.AppendChild(newRows);
+
+                workbookPart.Workbook.Save();
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "G3YXxiHbih8wwxJ5i2dqLPldOhM36AuZBTivQ24GXqQCHaDADY+sSBV0S6tFx7htwuigkjGkctGONKxkLnjfZg==",
+  "dgSpecHash": "bzBKEUPDTwvCHmFCJLLH9Dc/nmIrKte970e1qVsnSyMWDVYM3X+pxJkshHZ7ULXckKIhRNUrnP0S8e2t5gUITQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Dogukan\\source\\repos\\Mobile.Web.Api\\Mobile.Web.Api\\Mobile.Web.Api.csproj",
   "expectedPackageFiles": [
@@ -60,6 +60,7 @@
     "C:\\Users\\Dogukan\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\Dogukan\\.nuget\\packages\\npgsql\\5.0.0\\npgsql.5.0.0.nupkg.sha512",
     "C:\\Users\\Dogukan\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\5.0.0\\npgsql.entityframeworkcore.postgresql.5.0.0.nupkg.sha512",
+    "C:\\Users\\Dogukan\\.nuget\\packages\\open-xml-sdk\\2.9.0\\open-xml-sdk.2.9.0.nupkg.sha512",
     "C:\\Users\\Dogukan\\.nuget\\packages\\pipelines.sockets.unofficial\\2.2.2\\pipelines.sockets.unofficial.2.2.2.nupkg.sha512",
     "C:\\Users\\Dogukan\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
     "C:\\Users\\Dogukan\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
@@ -96,6 +97,7 @@
     "C:\\Users\\Dogukan\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
     "C:\\Users\\Dogukan\\.nuget\\packages\\system.io.filesystem\\4.3.0\\system.io.filesystem.4.3.0.nupkg.sha512",
     "C:\\Users\\Dogukan\\.nuget\\packages\\system.io.filesystem.primitives\\4.3.0\\system.io.filesystem.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\Dogukan\\.nuget\\packages\\system.io.packaging\\4.5.0\\system.io.packaging.4.5.0.nupkg.sha512",
     "C:\\Users\\Dogukan\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512",
     "C:\\Users\\Dogukan\\.nuget\\packages\\system.linq\\4.3.0\\system.linq.4.3.0.nupkg.sha512",
     "C:\\Users\\Dogukan\\.nuget\\packages\\system.net.nameresolution\\4.3.0\\system.net.nameresolution.4.3.0.nupkg.sha512",
@@ -121,6 +123,7 @@
     "C:\\Users\\Dogukan\\.nuget\\packages\\system.runtime.serialization.formatters\\4.3.0\\system.runtime.serialization.formatters.4.3.0.nupkg.sha512",
     "C:\\Users\\Dogukan\\.nuget\\packages\\system.runtime.serialization.json\\4.3.0\\system.runtime.serialization.json.4.3.0.nupkg.sha512",
     "C:\\Users\\Dogukan\\.nuget\\packages\\system.runtime.serialization.primitives\\4.3.0\\system.runtime.serialization.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\Dogukan\\.nuget\\packages\\system.runtime.serialization.xml\\4.3.0\\system.runtime.serialization.xml.4.3.0.nupkg.sha512",
     "C:\\Users\\Dogukan\\.nuget\\packages\\system.security.accesscontrol\\5.0.0\\system.security.accesscontrol.5.0.0.nupkg.sha512",
     "C:\\Users\\Dogukan\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512",
     "C:\\Users\\Dogukan\\.nuget\\packages\\system.security.cryptography.primitives\\4.3.0\\system.security.cryptography.primitives.4.3.0.nupkg.sha512",

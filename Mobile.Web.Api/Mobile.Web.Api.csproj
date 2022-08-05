@@ -84,4 +84,8 @@
     <Content Remove="C:\Users\Dogukan\.nuget\packages\mongodb.driver.core\2.16.1\build\..\runtimes\osx\native\libsnappy64.dylib" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

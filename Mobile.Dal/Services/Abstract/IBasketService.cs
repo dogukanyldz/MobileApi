@@ -12,6 +12,8 @@ namespace Mobile.Dal.Services.Abstract
         Task<BasketModel> GetBasket(string userId);
 
         Task<bool> AddBasket(BasketModel basket, string userId);
+        Task<bool> UpdateBasket(BasketModel basket, string userId);
+
         Task<BasketModel> DeleteBasketById(string userId, int productId);
         Task<bool> DeleteBasket(string userId);
         Task<bool> SendBasketItem(BasketModel basketItem);
