@@ -12,3 +12,4 @@ C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\obj\Debug\net5.0\Mo
 C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\obj\Debug\net5.0\ref\Mobile.Entities.dll
 C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\obj\Debug\net5.0\Mobile.Entities.pdb
 C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\obj\Debug\net5.0\Mobile.Entities.genruntimeconfig.cache
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Entities\obj\Debug\net5.0\Mobile.Entities.csproj.AssemblyReference.cache

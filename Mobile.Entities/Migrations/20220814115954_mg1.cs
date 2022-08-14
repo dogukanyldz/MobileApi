@@ -26,6 +26,8 @@ namespace Mobile.Entities.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -47,42 +49,30 @@ namespace Mobile.Entities.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "SetProducts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Marka = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Isim = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AnaKategori = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UrunKodu = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AltKategori = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Barkod = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Birim = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Kdv = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BirimFiyatı = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BirimFiyatiParaBirimi = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BirimMaliyeti = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BirimMaliyetiParaBirimi = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Detaylar = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Etiketler = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Stok = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    RezervStok = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    FinalStok = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TedarikSiparisStok = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Favori = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    YetkiSahibi = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Olusturan = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OlusturmaTarihi = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Guncelleyen = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GuncellemeTarihi = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SonIslem = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Durums = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Barcode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Piece = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_SetProducts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Template",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TemplateFile = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Template", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -205,6 +195,52 @@ namespace Mobile.Entities.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DepoId = table.Column<int>(type: "int", nullable: false),
+                    Marka = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Isim = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AnaKategori = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UrunKodu = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AltKategori = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Barkod = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Birim = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Kdv = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BirimFiyatı = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BirimFiyatiParaBirimi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BirimMaliyeti = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BirimMaliyetiParaBirimi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Detaylar = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Etiketler = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Stok = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    RezervStok = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FinalStok = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TedarikSiparisStok = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Favori = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    YetkiSahibi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Olusturan = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OlusturmaTarihi = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Guncelleyen = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GuncellemeTarihi = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SonIslem = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    SetProductsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_SetProducts_SetProductsId",
+                        column: x => x.SetProductsId,
+                        principalTable: "SetProducts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -243,6 +279,11 @@ namespace Mobile.Entities.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_SetProductsId",
+                table: "Products",
+                column: "SetProductsId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -266,6 +307,9 @@ namespace Mobile.Entities.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
+                name: "Template");
+
+            migrationBuilder.DropTable(
                 name: "User");
 
             migrationBuilder.DropTable(
@@ -273,6 +317,9 @@ namespace Mobile.Entities.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "SetProducts");
         }
     }
 }

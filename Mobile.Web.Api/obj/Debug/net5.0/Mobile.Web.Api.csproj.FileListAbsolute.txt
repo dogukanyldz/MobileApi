@@ -112,3 +112,5 @@ C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Web.Api\obj\Debug\net5.0\Mob
 C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Web.Api\obj\Debug\net5.0\ref\Mobile.Web.Api.dll
 C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Web.Api\obj\Debug\net5.0\Mobile.Web.Api.pdb
 C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Web.Api\obj\Debug\net5.0\Mobile.Web.Api.genruntimeconfig.cache
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Web.Api\bin\Debug\net5.0\Castle.Core.dll
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Mobile.Web.Api\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Proxies.dll

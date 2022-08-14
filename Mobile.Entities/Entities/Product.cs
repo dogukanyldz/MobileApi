@@ -25,6 +25,7 @@ namespace Mobile.Entities.Entities
 
         public string AnaKategori { get; set; }
         public string UrunKodu { get; set; }
+        public string Durum { get; set; }
 
         public string AltKategori { get; set; }
         public string Barkod { get; set; }
@@ -53,6 +54,6 @@ namespace Mobile.Entities.Entities
 
         public DateTime? SonIslem { get; set; }
 
-        public string Durum { get; set; }
+
     }
 }

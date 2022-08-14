@@ -36,24 +36,55 @@ namespace Mobile.Web.Api.Controllers
         [HttpGet("AddBasketItem")]
         public async Task<IActionResult> AddBasketItem(string barcode, int count)
         {
-            var product =  _context.Products.Where(x => x.Barkod == barcode).FirstOrDefault();
-            if (product == null) return NotFound("Product is Not Found");
-            var basket = await _basketService.GetBasket(_sharedIdentity.UserId);
-            var basketItem = new BasketItem {UnitPrice=product.BirimFiyatı, Count=count, ProductId = product.DepoId, Barcode=product.Barkod, CurrencyUnit= product.BirimFiyatiParaBirimi, ProductName = product.Isim };
-           if (basket == null)
-                return BadRequest();
-            
-            if (basket.basketItems.Any())
+            if (barcode.ToLower().StartsWith("set"))
             {
-                if(!basket.basketItems.Any(x=> x.Barcode == barcode))
-                    basket.basketItems.Add(basketItem);               
+                var products = await _context.SetProducts.Include(y => y.Products).Where(x => x.Barcode == barcode).ToListAsync();
+                if (!products.Any()) return NotFound("Set is Not Found");
+                var basket = await _basketService.GetBasket(_sharedIdentity.UserId);
+
+                foreach (var product in products)
+                {
+                    var item = new BasketItem { UnitPrice = product.Products.BirimFiyatı, Count = product.Piece, ProductCode = Convert.ToInt32(product.Products.UrunKodu), Barcode = product.Products.Barkod, CurrencyUnit = product.Products.BirimFiyatiParaBirimi, ProductName = product.Products.Isim };
+                    if (basket.basketItems.Any())
+                    {
+                        if (!basket.basketItems.Any(x => x.Barcode == barcode))
+                            basket.basketItems.Add(new BasketItem { UnitPrice = product.Products.BirimFiyatı, Count = product.Piece, ProductCode = Convert.ToInt32(product.Products.UrunKodu), Barcode = product.Products.Barkod, CurrencyUnit = product.Products.BirimFiyatiParaBirimi, ProductName = product.Products.Isim });
+                    }
+                    else
+                    {
+                        basket.basketItems.Add(item);
+
+                    }
+
+                }
+                var result = await _basketService.AddBasket(basket, _sharedIdentity.UserId);
+                return Ok(result);
+
             }
-            else { basket.basketItems.Add(basketItem);}
-
-           var result = await _basketService.AddBasket(basket, _sharedIdentity.UserId);
 
 
-            return Ok(result);
+            else
+            {
+                var product = _context.Products.Where(x => x.Barkod == barcode).FirstOrDefault();
+                if (product == null) return NotFound("Product is Not Found");
+                var basket = await _basketService.GetBasket(_sharedIdentity.UserId);
+                var basketItem = new BasketItem { UnitPrice = product.BirimFiyatı, Count = count, ProductCode = Convert.ToInt32(product.UrunKodu), Barcode = product.Barkod, CurrencyUnit = product.BirimFiyatiParaBirimi, ProductName = product.Isim };
+                if (basket == null)
+                    return BadRequest();
+
+                if (basket.basketItems.Any())
+                {
+                    if (!basket.basketItems.Any(x => x.Barcode == barcode))
+                        basket.basketItems.Add(basketItem);
+                }
+                else { basket.basketItems.Add(basketItem); }
+
+                var result = await _basketService.AddBasket(basket, _sharedIdentity.UserId);
+
+                return Ok(result);
+            }
+
+
 
         }
 
@@ -82,10 +113,10 @@ namespace Mobile.Web.Api.Controllers
         }
 
         [HttpGet("DeleteBasketById")]
-        public async Task<IActionResult> DeleteBasketById(int productId)
+        public async Task<IActionResult> DeleteBasketById(int productCode)
         {
              
-            var basket = await _basketService.DeleteBasketById(_sharedIdentity.UserId, productId);
+            var basket = await _basketService.DeleteBasketById(_sharedIdentity.UserId, productCode);
 
             return Ok(new { totalPrice = basket.TotalPrice, items = basket.basketItems });
 
@@ -101,10 +132,10 @@ namespace Mobile.Web.Api.Controllers
         }
         
         [HttpPost("SendBasketItem")]
-        public async Task<IActionResult> SendBasketItem([FromBody] BasketModel models)
+        public async Task<IActionResult> SendBasketItem([FromBody] BasketModel models,string message)
         {
 
-           var result = await _basketService.SendBasketItem(models);
+           var result = await _basketService.SendBasketItem(models,message);
             return Ok(result);
 
         }

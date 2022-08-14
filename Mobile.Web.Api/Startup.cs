@@ -87,7 +87,7 @@ namespace Mobile.Web.Api
             services.AddTransient<ITokenService, TokenService>();
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
 
-            var connection = new ConnectionFactory("172.17.0.3");
+            var connection = new ConnectionFactory("localhost");
             services.AddSingleton(connection);
 
             services.AddTransient<RedisService>(x=>

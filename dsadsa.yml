@@ -1,0 +1,9 @@
+version: '3.8' 
+services:
+  web.api:
+    image: web_api_image
+    build:
+      context: .
+      dockerfile: Mobile.Web.Api/Dockerfile
+  redisdb:
+    image: redis

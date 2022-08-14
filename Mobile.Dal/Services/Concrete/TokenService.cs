@@ -33,7 +33,7 @@ namespace Mobile.Dal.Services.Concrete
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Key"]));
 
             var token = new JwtSecurityToken(
-                expires: DateTime.Now.AddMinutes(50),
+                expires: DateTime.Now.AddMinutes(60),
                 issuer :_config["Jwt:Issuer"],
                 audience : _config["Jwt:Issuer"],
                 claims: claims,

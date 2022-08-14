@@ -1,0 +1,22 @@
+version: '3.8' 
+services:
+  redisdb:
+    image: redis
+    container_name: redisdb
+    restart: always
+    ports:
+      - "6379:6379"
+  web.api:
+    image: web_api_image
+    build:
+      context: .
+      dockerfile: Mobile.Web.Api/Dockerfile
+    container_name: web.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - RedisSettings:Port=6379
+      - RedisSettings:Host=redisdb
+    ports:
+      - "5013:80"
+    depends_on:
+      - redisdb

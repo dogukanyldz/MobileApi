@@ -27,21 +27,39 @@ namespace Mobile.Dal
 
 
     }
+    //public class ConnectionFactory
+    //{
+    //    private Lazy<ConnectionMultiplexer> _cnn1 { get; set; }
+    //    public ConnectionFactory(string cnn1)
+    //    {
+    //        var options = ConfigurationOptions.Parse(cnn1); // host1:port1, host2:port2, ...
+    //        options.Password = "0302199762Dd!";
+    //        options.Ssl = false;
+    //        options.AbortOnConnectFail = false;
+    //        options.SslProtocols = SslProtocols.Tls12;
+    //        _cnn1 = new Lazy<ConnectionMultiplexer>(ConnectionMultiplexer.Connect(options));
+    //    }
+
+    //    public IDatabase GetConnection()
+    //    {
+    //        return _cnn1.Value.GetDatabase();
+    //    }
+    //}
+
+
+
     public class ConnectionFactory
     {
         private Lazy<ConnectionMultiplexer> _cnn1 { get; set; }
+        private ConnectionMultiplexer _ConnectionMultiplexer;
         public ConnectionFactory(string cnn1)
         {
-            var options = ConfigurationOptions.Parse(cnn1); // host1:port1, host2:port2, ...
-            options.Password = "0302199762Dd!";
-            options.Ssl = false;
-            options.AbortOnConnectFail = false;
-            options.SslProtocols = SslProtocols.Tls12;
-            _cnn1 = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(options));
+            _ConnectionMultiplexer = ConnectionMultiplexer.Connect(cnn1);
         }
+
         public IDatabase GetConnection()
         {
-            return _cnn1.Value.GetDatabase();
+            return _ConnectionMultiplexer.GetDatabase();
         }
     }
 }

@@ -10,8 +10,8 @@ using Mobile.Entities.Context;
 namespace Mobile.Entities.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220708091003_mg6")]
-    partial class mg6
+    [Migration("20220814115954_mg1")]
+    partial class mg1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -260,9 +260,6 @@ namespace Mobile.Entities.Migrations
                     b.Property<string>("Detaylar")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Durum")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Etiketler")
                         .HasColumnType("nvarchar(max)");
 
@@ -299,6 +296,9 @@ namespace Mobile.Entities.Migrations
                     b.Property<decimal>("RezervStok")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("SetProductsId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("SonIslem")
                         .HasColumnType("datetime2");
 
@@ -316,7 +316,42 @@ namespace Mobile.Entities.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SetProductsId");
+
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Mobile.Entities.Entities.SetProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Barcode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Piece")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SetProducts");
+                });
+
+            modelBuilder.Entity("Mobile.Entities.Entities.Template", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("TemplateFile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Template");
                 });
 
             modelBuilder.Entity("Mobile.Entities.Entities.User", b =>
@@ -387,6 +422,22 @@ namespace Mobile.Entities.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Mobile.Entities.Entities.Product", b =>
+                {
+                    b.HasOne("Mobile.Entities.Entities.SetProduct", "SetProducts")
+                        .WithMany("Products")
+                        .HasForeignKey("SetProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SetProducts");
+                });
+
+            modelBuilder.Entity("Mobile.Entities.Entities.SetProduct", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

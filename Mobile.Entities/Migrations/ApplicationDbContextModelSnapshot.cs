@@ -317,6 +317,29 @@ namespace Mobile.Entities.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("Mobile.Entities.Entities.SetProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Barcode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Piece")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("SetProducts");
+                });
+
             modelBuilder.Entity("Mobile.Entities.Entities.Template", b =>
                 {
                     b.Property<int>("Id")
@@ -400,6 +423,17 @@ namespace Mobile.Entities.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Mobile.Entities.Entities.SetProduct", b =>
+                {
+                    b.HasOne("Mobile.Entities.Entities.Product", "Products")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

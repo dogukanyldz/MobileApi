@@ -63,12 +63,12 @@ namespace Mobile.Dal.Services.Concrete
 
         }
 
-        public async Task<BasketModel> DeleteBasketById(string userId, int productId)
+        public async Task<BasketModel> DeleteBasketById(string userId, int productCode)
         {
             var redisResult = await GetBasket(userId);            
             if (redisResult.basketItems.Count > 0)
             {
-                var deletedItem = redisResult.basketItems.Where(x => x.ProductId == productId).FirstOrDefault();
+                var deletedItem = redisResult.basketItems.Where(x => x.ProductCode == productCode).FirstOrDefault();
                 if (deletedItem == null)
                     return new BasketModel();
 
@@ -96,7 +96,7 @@ namespace Mobile.Dal.Services.Concrete
         }
 
 
-        public async Task<bool> SendBasketItem(BasketModel basket)
+        public async Task<bool> SendBasketItem(BasketModel basket, string message)
         {
             string root_path = $@"{_env.WebRootPath }\SiparisVerileri.xlsx";
             WriteExcelFile(basket.basketItems, root_path);
@@ -110,17 +110,18 @@ namespace Mobile.Dal.Services.Concrete
             };
             MailMessage mailMessage = new(_smtpSettings.From, _smtpSettings.To);
             mailMessage.IsBodyHtml = true;
-            mailMessage.Subject = "Sipariş Raporu";
+            mailMessage.Subject = $"Sipariş Raporu {DateTime.Now}";
             var path = Directory.GetCurrentDirectory();
             string html = _applicationDbContext.Template.AsNoTracking().Select(x => x.TemplateFile).FirstOrDefault();
             StringBuilder builder = new();
             builder.Append(html);
+            builder = builder.Replace("message_input", message);
             basket.basketItems.ForEach(x => {
                 
-              builder.Append($"<tr> <td>{x.ProductName} </td> <td>{x.Barcode} </td> <td>{x.ProductId} </td> <td>{x.CurrencyUnit} </td> <td>{x.Count} </td> <td>{x.UnitPrice} </td> </tr>");
+              builder.Append($"<tr> <td>{x.ProductName} </td> <td>{x.Barcode} </td> <td>{x.ProductCode} </td> <td>{x.CurrencyUnit} </td> <td>{x.Count} </td> <td>{x.UnitPrice} </td> </tr>");
             
             });
-            builder.Append($"<tr> <td> </td> <td></td> <td> </td> <td> </td> <td> </td> <td> Toplam Tutar : {basket.TotalPrice} EUR </td> </tr>");
+            builder.Append($"<tr> <td> </td> <td></td> <td> </td> <td> </td> <td> </td> <td> Toplam Tutar : {Convert.ToDecimal(basket.TotalPrice).ToString("#,##0.0000")} EUR </td> </tr>");
 
             builder.Append("</table> </body> </html>");
             mailMessage.Body = builder.ToString();
