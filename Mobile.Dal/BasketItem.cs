@@ -12,6 +12,7 @@ namespace Mobile.Dal
         public int ProductCode { get; set; }
         public string ProductName { get; set; }
         public string Barcode { get; set; }
+        public string SetValue { get; set; }
 
         public decimal Price => UnitPrice * Count;
 

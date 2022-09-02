@@ -63,17 +63,22 @@ namespace Mobile.Dal.Services.Concrete
 
         }
 
-        public async Task<BasketModel> DeleteBasketById(string userId, int productCode)
+        public async Task<BasketModel> DeleteBasketById(string userId, int productCode, string setValue)
         {
             var redisResult = await GetBasket(userId);            
             if (redisResult.basketItems.Count > 0)
             {
-                var deletedItem = redisResult.basketItems.Where(x => x.ProductCode == productCode).FirstOrDefault();
-                if (deletedItem == null)
-                    return new BasketModel();
-
-                redisResult.basketItems.Remove(deletedItem);
-               
+                if(setValue is not null)
+                {
+                    var item = redisResult.basketItems.Where(x => x.ProductCode == productCode && x.SetValue==setValue).FirstOrDefault();
+                    redisResult.basketItems.Remove(item);
+                }
+                else
+                {
+                    var deletedItem = redisResult.basketItems.Where(x => x.ProductCode == productCode && x.SetValue=="").FirstOrDefault();
+                    redisResult.basketItems.Remove(deletedItem);
+                }
+                          
                 await _redis.GetConnection().StringSetAsync(userId, JsonConvert.SerializeObject(redisResult));
 
                 return redisResult;

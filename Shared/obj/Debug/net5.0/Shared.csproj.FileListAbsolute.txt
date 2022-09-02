@@ -9,3 +9,4 @@ C:\Users\Dogukan\source\repos\Mobile.Web.Api\Shared\obj\Debug\net5.0\Shared.cspr
 C:\Users\Dogukan\source\repos\Mobile.Web.Api\Shared\obj\Debug\net5.0\Shared.dll
 C:\Users\Dogukan\source\repos\Mobile.Web.Api\Shared\obj\Debug\net5.0\ref\Shared.dll
 C:\Users\Dogukan\source\repos\Mobile.Web.Api\Shared\obj\Debug\net5.0\Shared.pdb
+C:\Users\Dogukan\source\repos\Mobile.Web.Api\Shared\obj\Debug\net5.0\Shared.csproj.AssemblyReference.cache

@@ -109,9 +109,8 @@ namespace Mobile.Web.Api.Controllers
 
             var principal = _tokenService.ValidateExpiredToken(accessToken);
             if (principal == null)
-            {
                 return Unauthorized("Invalid access token or refresh token");
-            }
+            
 
             var email = principal.FindFirstValue(ClaimTypes.Email);
             var user = await _userManager.FindByEmailAsync(email);

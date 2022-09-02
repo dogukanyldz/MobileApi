@@ -11,7 +11,7 @@ namespace Shared
 {
    public class SharedIdentity
     {
-        private IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public SharedIdentity(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;

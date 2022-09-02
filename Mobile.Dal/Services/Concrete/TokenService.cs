@@ -39,6 +39,7 @@ namespace Mobile.Dal.Services.Concrete
                 claims: claims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                 );
+
             return token;
         }
 
